@@ -95,7 +95,7 @@ public class Partita {
                         // --- GESTIONE USCITA ---
                         else if (cmd.equals("ESCI") || cmd.equals("QUIT")) {
                             System.out.println("-> Utente vuole uscire.");
-                            // Trucco: impostiamo una variabile per uscire anche dal loop esterno
+                            // impostiamo una variabile per uscire anche dal loop esterno
                             // Ma per ora basta chiudere il socket qui o fare return
                             s.close();
                             return; 
@@ -163,7 +163,7 @@ public class Partita {
                         String comando = in.readLine();
 
                         if (comando == null || comando.equals("ESCI") || comando.equals("QUIT")) {
-                            voglioUscire = true; // <--- AGGIUNGI QUESTO!
+                            voglioUscire = true; 
                             break; // Esce dal Loop 3
                         }
                         
@@ -267,7 +267,7 @@ public class Partita {
                             	saldo += puntataCorrenteD * 2;
                             	puntataCorrenteD = 0;
                             	puntataCorrente = 0;
-                            } else if (pD == pB) { // <--- MANCAVA QUESTO
+                            } else if (pD == pB) { 
                                 esito += "DX:Pareggio ";
                                 saldo += puntataCorrenteD; // Ti ridò i soldi
                                 puntataCorrenteD = 0;
@@ -285,7 +285,7 @@ public class Partita {
                             	saldo += puntataCorrenteS * 2;
                             	puntataCorrenteS = 0;
                             	puntataCorrente = 0;
-                            } else if (pS == pB) { // <--- MANCAVA QUESTO
+                            } else if (pS == pB) { 
                                 esito += "SX:Pareggio ";
                                 saldo += puntataCorrenteS; // Ti ridò i soldi
                                 puntataCorrenteS = 0;
@@ -394,4 +394,5 @@ public class Partita {
             e.printStackTrace();
         }
     }
+
 }
