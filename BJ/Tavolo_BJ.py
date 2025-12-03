@@ -43,7 +43,7 @@ frame_banco = tk.Frame(mio_frame, bg="darkgreen", bd=2, relief="ridge")
 # fill="x" serve a estendere il frame per tutta la larghezza della finestra
 frame_banco.pack(side=tk.TOP, fill="x", pady=10, padx=10)
 # A. Una Label (Testo) che dice "BANCO"
-# Nota: il genitore qui è 'frame_banco', non root!
+# Nota: il genitore qui è 'frame_banco', non root
 
 scritta_banco = tk.Frame(frame_banco, bg="lightgrey", bd=2, relief="groove")
 scritta_banco.pack(side=tk.TOP, fill="x", pady=10, padx=10)
@@ -211,7 +211,7 @@ def ascolta_server():
                     root.after(0, lambda: label_info.config(text=txt, fg="yellow"))
                     keywords = ["VINTO", "VINCE", "PERSO", "PERDE", "PAREGGIO", "PARI", "SBALLATO", "SBALLA"]
                     
-                    # TRUCCO: Convertiamo il messaggio in maiuscolo (.upper()) prima di controllare
+                    # Convertiamo il messaggio in maiuscolo (.upper()) prima di controllare
                     if any(parola in txt.upper() for parola in keywords):
                         root.after(0, lambda: btn_carta.config(state="disabled"))
                         root.after(0, lambda: btn_stai.config(state="disabled"))
@@ -362,3 +362,4 @@ root.after(100, mostra_fase_scommessa)
 
 # %%
 root.mainloop()
+
