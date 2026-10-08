@@ -43,7 +43,7 @@ frame_banco = tk.Frame(mio_frame, bg="darkgreen", bd=2, relief="ridge")
 # fill="x" serve a estendere il frame per tutta la larghezza della finestra
 frame_banco.pack(side=tk.TOP, fill="x", pady=10, padx=10)
 # A. Una Label (Testo) che dice "BANCO"
-# Nota: il genitore qui è 'frame_banco', non root
+# Nota: il genitore qui è 'frame_banco', non root!
 
 scritta_banco = tk.Frame(frame_banco, bg="lightgrey", bd=2, relief="groove")
 scritta_banco.pack(side=tk.TOP, fill="x", pady=10, padx=10)
@@ -83,6 +83,9 @@ frame_scommesse = tk.Frame(bottoni, bg="darkgreen")
 frame_scommesse.pack() 
 
 # I bottoni delle fiches
+btn_allin = tk.Button(frame_scommesse, text="ALL-IN", width=8, font=("Arial", 12, "bold"), bg="gold", command=lambda: manda_bet("ALL-IN"))
+btn_allin.pack(side=tk.LEFT, padx=5)
+
 btn_10 = tk.Button(frame_scommesse, text="10€", width=8, font=("Arial", 12, "bold"), bg="gold", command=lambda: manda_bet(10))
 btn_10.pack(side=tk.LEFT, padx=5)
 
@@ -116,7 +119,7 @@ btn_split = tk.Button(frame_comandi, text="SPLIT", width=10, font=("Arial", 12))
 btn_split.pack(side=tk.LEFT, padx=5)
 btn_split.config(state="disabled")
 
-# Il tasto ESCI magari lo vuoi sempre. Creiamo un frame piccolino in fondo per lui
+# Il tasto ESCI lo voglio sempre. Creiamo un frame piccolino in fondo per lui
 frame_esci = tk.Frame(root, bg="darkgreen")
 frame_esci.pack(side=tk.BOTTOM, pady=5)
 btn_quit = tk.Button(frame_esci, text="ESCI", width=10, font=("Arial", 10))
@@ -211,7 +214,7 @@ def ascolta_server():
                     root.after(0, lambda: label_info.config(text=txt, fg="yellow"))
                     keywords = ["VINTO", "VINCE", "PERSO", "PERDE", "PAREGGIO", "PARI", "SBALLATO", "SBALLA"]
                     
-                    # Convertiamo il messaggio in maiuscolo (.upper()) prima di controllare
+                    # TRUCCO: Convertiamo il messaggio in maiuscolo (.upper()) prima di controllare
                     if any(parola in txt.upper() for parola in keywords):
                         root.after(0, lambda: btn_carta.config(state="disabled"))
                         root.after(0, lambda: btn_stai.config(state="disabled"))
@@ -362,4 +365,3 @@ root.after(100, mostra_fase_scommessa)
 
 # %%
 root.mainloop()
-
