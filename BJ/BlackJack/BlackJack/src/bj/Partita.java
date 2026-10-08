@@ -24,6 +24,7 @@ public class Partita {
                 // LOOP SESSIONE
                 while (true) {
                 	int puntataCorrente = 0;
+                    boolean utenteDisconnesso = false;
                     
                     // 1. Inviamo lo stato iniziale a Python
                     System.out.println(">> INIZIO SCOMMESSE. Saldo: " + saldo);
@@ -38,7 +39,8 @@ public class Partita {
                         // Protezione: se Python si chiude improvvisamente
                         if (cmd == null) {
                             System.out.println("ERRORE: Client perso durante le scommesse.");
-                            return; // Esce dal main
+                            utenteDisconnesso = true;
+                            break; // Esce dal main
                         }
                         
                         System.out.println("RICEVUTO: " + cmd);
@@ -70,7 +72,16 @@ public class Partita {
                             } else {
                                 pw.println("MSG:Non hai abbastanza soldi!");
                             }
-                        } 
+                        }
+                        else if (cmd.equals("BET:ALL-IN")) {
+                            if (saldo > 0) {
+                                puntataCorrente += saldo;
+                                saldo = 0;
+                                System.out.println("-> Puntati tutti i soldi. Nuovo saldo: " + saldo);
+                            } else {
+                                pw.println("MSG:Non hai abbastanza soldi!");
+                            }
+                        }
                         
                         // --- GESTIONE START (DEAL) ---
                         else if (cmd.equals("DEAL")) {
@@ -95,14 +106,19 @@ public class Partita {
                         // --- GESTIONE USCITA ---
                         else if (cmd.equals("ESCI") || cmd.equals("QUIT")) {
                             System.out.println("-> Utente vuole uscire.");
-                            // impostiamo una variabile per uscire anche dal loop esterno
+                            // Trucco: impostiamo una variabile per uscire anche dal loop esterno
                             // Ma per ora basta chiudere il socket qui o fare return
                             s.close();
-                            return; 
+                            utenteDisconnesso = true;
+                            break; 
                         }
 
                         // AGGIORNA SEMPRE L'INTERFACCIA PYTHON
                         pw.println("SALDO:" + saldo + ":" + puntataCorrente);
+                    }
+
+                    if (utenteDisconnesso) {
+                        break; // Rompe il LOOP SESSIONE e va dritto giù a fare s.close()
                     }
                 	
                     Mazzo mazzo = new Mazzo();
@@ -163,7 +179,7 @@ public class Partita {
                         String comando = in.readLine();
 
                         if (comando == null || comando.equals("ESCI") || comando.equals("QUIT")) {
-                            voglioUscire = true; 
+                            voglioUscire = true;
                             break; // Esce dal Loop 3
                         }
                         
@@ -267,7 +283,7 @@ public class Partita {
                             	saldo += puntataCorrenteD * 2;
                             	puntataCorrenteD = 0;
                             	puntataCorrente = 0;
-                            } else if (pD == pB) { 
+                            } else if (pD == pB) {
                                 esito += "DX:Pareggio ";
                                 saldo += puntataCorrenteD; // Ti ridò i soldi
                                 puntataCorrenteD = 0;
@@ -394,5 +410,4 @@ public class Partita {
             e.printStackTrace();
         }
     }
-
 }
